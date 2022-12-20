@@ -1,4 +1,3 @@
-
 const mysql = require("mysql2");
 const { promisify } = require("util");
 
@@ -7,8 +6,8 @@ const connection = mysql.createConnection({
   // Your username
   user: "root",
   // Your password
-  password: "your password here",
-  database: "employees"
+  password: "root",
+  database: "employees",
 });
 
 connection.connect(function (err) {
