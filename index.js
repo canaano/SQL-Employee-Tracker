@@ -22,7 +22,15 @@ const start = async () => {
       ],
     },
   ]);
-  console.log(choice);
+
+  switch (choice) {
+    case "view all departments":
+      const data = await viewAllDepartments();
+      console.table(data);
+    // case "view all employees":
+    //     const employees = await viewAllEmployees();
+    //     console.table(employees);
+  }
 };
 
 start();
