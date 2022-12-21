@@ -5,7 +5,7 @@ async function viewAllEmployees() {
     const employees = await db.query(
       "SELECT * FROM employee LEFT Join role ON role.id = employee.role_id"
     );
-    return employees[0];
+    return employees;
   } catch (err) {
     console.log(err);
   }
