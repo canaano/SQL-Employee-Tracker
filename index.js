@@ -3,8 +3,8 @@ const db = require("./db/connection");
 const viewAllDepartments = require("./db/departments");
 const viewAllEmployees = require("./db/employees");
 
-const start = async () => {
-  console.log("Welcome to the Employee Manager!");
+const start = async (s) => {
+  if (s) console.log("Welcome to the Employee Manager!");
   //  Accomplish the following: view all departments, view all roles, view all employees, add a department, add a role, add an employee, and update an employee role
   const { choice } = await prompt([
     {
@@ -53,8 +53,10 @@ const start = async () => {
 
     case "Exit":
       console.log("Complete");
-      process.exit();
+      return;
   }
+
+  start(false);
 };
 
-start();
+start(true);
