@@ -14,7 +14,9 @@ async function viewAllEmployees() {
 
 async function addEmployee() {
   try {
-    const { firstName, lastName } = inquirer.prompt([
+    const roles = await viewAllRoles();
+    const employees = await viewAllEmployees();
+    const { firstName, lastName, role, manager } = inquirer.prompt([
       {
         type: "input",
         name: "firstName",
@@ -25,10 +27,37 @@ async function addEmployee() {
         name: "lastName",
         message: "What is the employees last name?",
       },
+      {
+        type: "list",
+        name: "role",
+        choices: roles.map((role) => {
+          return {
+            value: role.id,
+            name: role.title,
+          };
+        }),
+      },
+      {
+        type: "list",
+        name: "manager",
+        message: "Who is the employees manager?",
+        choices: [
+          ...employees.map((employee) => {
+            return {
+              value: employee.id,
+              name: `${employee.firstName} ${employee.lastName}}`,
+            };
+          }),
+          {
+            value: null,
+            name: "No manager",
+          },
+        ],
+      },
     ]);
 
     await db.query(
-      `INSERT INTO employee (firstName, lastName, role_id) VALUES ("${firstName}", "${lastName}", 1)`
+      `INSERT INTO employee (firstName, lastName, role_id, manager_id) VALUES ("${firstName}", "${lastName}", ${role}. ${manager})`
     );
     const newEmployees = await viewAllEmployees();
 
