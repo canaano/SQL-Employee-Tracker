@@ -1,7 +1,7 @@
 const { prompt } = require("inquirer");
 const db = require("./db/connection");
-const viewAllDepartments = require("./db/departments");
-const viewAllEmployees = require("./db/employees");
+const { viewAllDepartments } = require("./db/departments");
+const { viewAllEmployees } = require("./db/employees");
 
 const start = async (s) => {
   if (s) console.log("Welcome to the Employee Manager!");
@@ -42,7 +42,7 @@ const start = async (s) => {
       break;
 
     case "add an employee":
-      const newEmployee = await addEmployee();
+      const newEmployees = await addEmployee();
       console.table(newEmployee);
       break;
 
@@ -53,7 +53,7 @@ const start = async (s) => {
 
     case "Exit":
       console.log("Complete");
-      return;
+      process.exit();
   }
 
   start(false);
