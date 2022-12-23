@@ -1,7 +1,7 @@
 const { prompt } = require("inquirer");
 const db = require("./db/connection");
-const { viewAllDepartments } = require("./db/departments");
-const { viewAllEmployees } = require("./db/employees");
+const { viewAllDepartments, addDepartment } = require("./db/departments");
+const { viewAllEmployees, addEmployee } = require("./db/employees");
 
 const start = async (s) => {
   if (s) console.log("Welcome to the Employee Manager!");
@@ -25,28 +25,28 @@ const start = async (s) => {
   ]);
 
   switch (choice) {
-    case "view all departments":
+    case "View all departments":
       const departments = await viewAllDepartments();
       console.table(departments);
       break;
-    case "view all employees":
+    case "View all employees":
       const employees = await viewAllEmployees();
       console.table(employees);
       break;
-    case "view all roles":
+    case "View all roles":
       const roles = await viewAllRoles();
       console.table(roles);
       break;
-    case "add a department":
+    case "Add a department":
       const department = await addDepartment();
       break;
 
-    case "add an employee":
-      const newEmployees = await addEmployee();
+    case "Add an employee":
+      const newEmployee = await addEmployee();
       console.table(newEmployee);
       break;
 
-    case "add a role":
+    case "Add a role":
       const newRole = await addRole();
       console.table(newRole);
       break;
