@@ -2,6 +2,7 @@ const { prompt } = require("inquirer");
 const db = require("./db/connection");
 const { viewAllDepartments, addDepartment } = require("./db/departments");
 const { viewAllEmployees, addEmployee } = require("./db/employees");
+const { viewAllRoles } = require("./db/roles");
 
 const start = async (s) => {
   if (s) console.log("Welcome to the Employee Manager!");
