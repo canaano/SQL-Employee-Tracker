@@ -1,5 +1,5 @@
 const db = require("./connection");
-
+const inquirer = require("inquirer");
 async function viewAllDepartments() {
   try {
     const departments = db.query("SELECT * FROM department");
