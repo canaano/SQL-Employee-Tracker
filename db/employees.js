@@ -30,7 +30,7 @@ async function addEmployee() {
       {
         type: "list",
         name: "role",
-        message: "What is the new emplooyess role?",
+        message: "What is the employees new role?",
         choices: roles.map((role) => {
           return {
             value: role.id,
@@ -41,18 +41,14 @@ async function addEmployee() {
       {
         type: "list",
         name: "manager",
-        message: "Who manages this employee?",
+        message: "Who manages the employee?",
         choices: [
-          ...employees.map((employee) => {
+          employee.map((employee) => {
             return {
               value: employee.id,
               name: `${employee.firstName} ${employee.lastName}}`,
             };
           }),
-          {
-            value: null,
-            name: "No manager",
-          },
         ],
       },
     ]);
@@ -60,9 +56,9 @@ async function addEmployee() {
     await db.query(
       `INSERT INTO employee (firstName, lastName, role_id, manager_id) VALUES ("${firstName}", "${lastName}", "${role}", "${manager}")`
     );
-    const newEmployees = await viewAllEmployees();
+    const newEmployee = await viewAllEmployees();
 
-    return newEmployees;
+    return newEmployee;
   } catch (err) {
     console.log(err);
   }
