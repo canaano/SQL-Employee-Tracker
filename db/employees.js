@@ -5,60 +5,48 @@ const { viewAllRoles } = require("./roles");
 async function viewAllEmployees() {
   try {
     const employees = await db.query(
-      "SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, employee.manager_id FROM employee LEFT JOIN role ON role.id = employee.role_id"
+      "SELECT * FROM employee LEFT JOIN role ON role.id = employee.role_id LEFT JOIN department ON role.department_id = department.id"
     );
     return employees;
   } catch (err) {
     console.log(err);
   }
 }
-
+// add the new employees information to the database
 async function addEmployee() {
   try {
-    const roles = await viewAllRoles();
-    const { firstName, lastName, role, manager } = inquirer.prompt([
+    const roleNames = await viewAllRoles();
+    const employees = await viewAllEmployees();
+    const { first_name, last_name, role } = inquirer.prompt([
       {
         type: "input",
-        name: "firstName",
+        name: "first_name",
         message: "What is the employees first name?",
       },
       {
         type: "input",
-        name: "lastName",
+        name: "last_name",
         message: "What is the employees last name?",
       },
       {
         type: "list",
         name: "role",
         message: "What is the employees new role?",
-        choices: roles.map((role) => {
+        choices: roleNames.map((role) => {
           return {
             value: role.id,
             name: role.title,
           };
         }),
       },
-      {
-        type: "list",
-        name: "manager",
-        message: "Who manages the employee?",
-        choices: [
-          employee.map((employee) => {
-            return {
-              value: employee.id,
-              name: `${employee.firstName} ${employee.lastName}}`,
-            };
-          }),
-        ],
-      },
     ]);
 
     await db.query(
-      `INSERT INTO employee (firstName, lastName, role_id, manager_id) VALUES ("${firstName}", "${lastName}", "${role}", "${manager}")`
+      `INSERT INTO employee (first_name, last_name, role_id) VALUES ("${first_name}", "${last_name}", "${role}")`
     );
-    const newEmployee = await viewAllEmployees();
+    const newEmployees = await viewAllEmployees();
 
-    return newEmployee;
+    return newEmployees;
   } catch (err) {
     console.log(err);
   }
