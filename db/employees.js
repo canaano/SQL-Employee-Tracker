@@ -5,7 +5,7 @@ const { viewAllRoles } = require("./roles");
 async function viewAllEmployees() {
   try {
     const employees = await db.query(
-      "SELECT * FROM employee LEFT JOIN role ON role.id = employee.role_id LEFT JOIN department ON role.department_id = department.id"
+      "SELECT employee.id, employee.first_name, employee.last_name, role.title, role.salary, employee.manager_id FROM employee LEFT JOIN role ON role.id = employee.role_id"
     );
     return employees;
   } catch (err) {
@@ -17,15 +17,15 @@ async function addEmployee() {
   try {
     const roleNames = await viewAllRoles();
     const employees = await viewAllEmployees();
-    const { first_name, last_name, role } = inquirer.prompt([
+    const { firstName, lastName, role } = await inquirer.prompt([
       {
         type: "input",
-        name: "first_name",
+        name: "firstName",
         message: "What is the employees first name?",
       },
       {
         type: "input",
-        name: "last_name",
+        name: "lastName",
         message: "What is the employees last name?",
       },
       {
@@ -42,11 +42,11 @@ async function addEmployee() {
     ]);
 
     await db.query(
-      `INSERT INTO employee (first_name, last_name, role_id) VALUES ("${first_name}", "${last_name}", "${role}")`
+      `INSERT INTO employee (first_name, last_Name, role_id) VALUES ("${firstName}", "${lastName}", "${role}")`
     );
-    const newEmployees = await viewAllEmployees();
+    const newEmployee = await viewAllEmployees();
 
-    return newEmployees;
+    return newEmployee;
   } catch (err) {
     console.log(err);
   }

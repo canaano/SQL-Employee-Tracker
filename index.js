@@ -39,8 +39,9 @@ const start = async (s) => {
       console.table(roles);
       break;
     case "Add a department":
-      const department = await addDepartment();
-      console.table(Newdepartment);
+      const newDepartment = await addDepartment();
+
+      console.table(newDepartment);
       break;
 
     case "Add an employee":
